@@ -1,36 +1,44 @@
-name: Cypress Tests
-
+name: example-basic-pnpm
 on:
   push:
     branches:
-      - main
+      - 'master'
   pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
 
+  basic-pnpm:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-2022, macos-14]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        # See https://github.com/pnpm/action-setup
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
+          version: 9
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
+        # See https://github.com/actions/setup-node
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          build: npm run build
-          start: npm start
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 60
-          command: npm run cy:run -- --record --key YOUR_CYPRESS_RECORD_KEY
-        env:
-          CYPRESS_DEBUG: 1
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: examples/basic-pnpm/pnpm-lock.yaml
+
+      - name: Cypress tests
+        # if you copy this workflow to another repository
+        # take the next line as replacement for ./
+        # uses: cypress-io/github-action@v6
+        uses: ./
+        with:
+          working-directory: examples/basic-pnpm
+          # print information about detected browsers, etc
+          # see https://on.cypress.io/command-line#cypress-info
+          build: pnpm exec cypress info
