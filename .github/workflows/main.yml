@@ -12,9 +12,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          node-version: '20'  # Specify Node.js version 20 for checkout action
+        uses: actions/checkout@v3  # No need to specify 'node-version' here
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
