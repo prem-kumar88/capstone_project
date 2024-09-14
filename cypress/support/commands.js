@@ -23,3 +23,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Custom command to get the body of an iframe
+// Custom command to get the body of an iframe
+
+
+Cypress.Commands.add('getIframe', (iframe) => {
+    return cy.get(iframe)
+        .its('0.contentDocument.body').should('be.visible')
+        .then(cy.wrap);
+});
+
+Cypress.Commands.add('login' , (email,password) => {
+    cy.get('#email').type(email)
+    cy.get('#login-password').type(password)
+    cy.get('#login').click()
+    cy.get('').should('exist')
+    
+})

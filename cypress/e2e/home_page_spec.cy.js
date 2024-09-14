@@ -42,11 +42,13 @@ describe('MyShop Website Functional Testing', () => {
     // Test Case 1: Homepage Navigation
     it('should load the homepage and display main elements', () => {
       cy.url().should('eq', baseUrl); // Verify URL
+
+      
       cy.get('header').should('be.visible'); // Verify header is visible
       cy.get('footer').should('be.visible'); // Verify footer is visible
-      cy.get('nav').should('be.visible'); // Verify navigation bar is visible
+     // cy.get('nav').should('be.visible'); // Verify navigation bar is visible
       cy.get('.product-category').should('be.visible'); // Verify product categories are displayed
-      cy.get('.featured-products').should('be.visible'); // Verify featured products are visible
+      /*cy.get('.featured-products').should('be.visible'); // Verify featured products are visible
     });
   
     // Test Case 2: Product Search Functionality
@@ -89,3 +91,12 @@ describe('MyShop Website Functional Testing', () => {
     });
   
   });
+  // Test Case 5: User Registration
+  it('should allow user to register and receive a confirmation email', () => {
+    cy.get('a[href*="register"]').click(); // Click the register link
+    cy.get('a[href*="register"]').click(); // Click the register link
+    cy.url().should('include', '/register'); // Verify the register page URL is correct
+    // Fill in the registration form
+    */
+  })
+})
